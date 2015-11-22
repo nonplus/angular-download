@@ -3,7 +3,7 @@
  *
  * @link https://github.com/nonplus/angular-download
  *
- * @license angular-download v0.0.0
+ * @license angular-download v0.0.1
  * (c) Copyright Stepan Riha <github@nonplus.net>
  * License MIT
  */
@@ -21,6 +21,7 @@ angular.module("download", [])
 
 		return {
 			fromData: function(data, mimeType, name) {
+				this.fromDataUrl("data:" + mimeType + ";base64," + btoa(data), name);
 				this.fromDataUrl("data:" + mimeType + ";base64," + btoa(data), name);
 			},
 			fromDataUrl: function(dataUrl, name) {
