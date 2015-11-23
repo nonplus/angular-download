@@ -29,7 +29,7 @@
 					$scope.downloadImage = function() {
 						var img = angular.element(document).find("img");
 						var dataUrl = getImageDataUrl(img[0]);
-						download.fromDataUrl(dataUrl, $scope.imageName);
+						download.fromDataURL(dataUrl, $scope.imageName);
 					}
 				});
 
