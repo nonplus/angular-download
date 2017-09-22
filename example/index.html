@@ -26,11 +26,18 @@
 					};
 
 					$scope.imageName = "My image.png";
-					$scope.downloadImage = function() {
+					$scope.downloadImageFromDataUrl = function() {
 						var img = angular.element(document).find("img");
 						var dataUrl = getImageDataUrl(img[0]);
 						download.fromDataURL(dataUrl, $scope.imageName);
-					}
+					};
+
+					$scope.downloadImageFromBlob = function() {
+						var img = angular.element(document).find("img");
+						getImageDataBlob(img[0], function(blob) {
+							download.fromBlob(blob, $scope.imageName);
+						});
+					};
 				});
 
 		function getImageDataUrl(img) {
@@ -44,6 +51,23 @@
 			ctx.drawImage(img, 0, 0);
 
 			return canvas.toDataURL("image/png");
+		}
+
+		function getImageDataBlob(img, cb) {
+			// Create an empty canvas element
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+
+			// Copy the image contents to the canvas
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+
+			if (canvas.msToBlob) {
+				cb(canvas.msToBlob());
+			} else {
+				canvas.toBlob(cb);
+			}
 		}
 	</script>
 </head>
@@ -78,9 +102,15 @@
 		<td><img src="image.png"/></td>
 	</tr>
 	<tr>
-		<td><button ng-click="downloadImage()">Download</button></td>
+		<td><button ng-click="downloadImageFromDataUrl()">Download</button></td>
 		<td>
 			<pre>download.fromDataUrl(dataUrl, fileName);</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><button ng-click="downloadImageFromBlob()">Download</button></td>
+		<td>
+			<pre>download.fromBlob(dataBlob, fileName);</pre>
 		</td>
 	</tr>
 </table>

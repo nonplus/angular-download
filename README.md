@@ -43,9 +43,9 @@ Inject the `download` service:
 
 ```javascript
 function MyController($scope, download, ...) {
-	$scope.downloadFile = function() {
-		download.fromData("contents of the file", "text/plain", "file.txt");
-	}
+    $scope.downloadFile = function() {
+        download.fromData("contents of the file", "text/plain", "file.txt");
+    }
 }
 ```
 
@@ -56,9 +56,9 @@ Downloads a file containing `data` as type `mimeType` named `fileName`.
 
 ```javascript
 function MyController($scope, download) {
-	$scope.downloadAsJson = function(someData) {
-		download.fromData(JSON.stringify(someData), "application/json", "download.json");
-	}
+    $scope.downloadAsJson = function(someData) {
+        download.fromData(JSON.stringify(someData), "application/json", "download.json");
+    }
 }
 ```
 
@@ -70,23 +70,59 @@ data, such as client-generated images.
 
 ```javascript
 function MyController($scope, download) {
-	$scope.downloadImage = function(img) {
-		download.fromDataURL(getImageDataURL(img), "download.png");
-	}
+    $scope.downloadImage = function(img) {
+        download.fromDataURL(getImageDataURL(img), "download.png");
+    }
 }
 
 // Create a dataURL from an img element
 function getImageDataURL(img) {
-	// Create an empty canvas element
-	var canvas = document.createElement("canvas");
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
 
-	// Copy the image contents to the canvas
-	canvas.width = img.width;
-	canvas.height = img.height;
-	var ctx = canvas.getContext("2d");
-	ctx.drawImage(img, 0, 0);
+    // Copy the image contents to the canvas
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
 
-	return canvas.toDataURL("image/png");
+    return canvas.toDataURL("image/png");
+}
+```
+
+Method: fromDataBlob(dataBlob, fileName)
+----------------------------------------
+
+Downloads a `Blob` with contents defined by the `dataBlob` named `fileName`.  This is useful for downloading binary
+data, such as client-generated images.
+
+```javascript
+function MyController($scope, download) {
+    $scope.downloadImage = function(img) {
+        getImageDataBlob(function(blob) {
+            download.fromDataBlob(blob, "download.png");
+        });
+    }
+}
+
+// Create a PNG Blob from an img element
+function downloadImage(img, cb) {
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+
+    // Copy the image contents to the canvas
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    if (canvas.msToBlob) {
+        // On IE, the msToBlob method returns the Blob value
+        cb(canvas.msToBlob);
+    } else {
+        // On standard browsers, the toBlob method calls the callback
+        canvas.toBlob(cb);
+    }
 }
 ```
 
