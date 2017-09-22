@@ -52,12 +52,25 @@ function MyController($scope, download, ...) {
 Method: fromData(data, mimeType, fileName)
 ------------------------------------------
 
-Downloads a file containing `data` as type `mimeType` named `fileName`.
+Downloads a file containing string `data` as type `mimeType` named `fileName`.
 
 ```javascript
 function MyController($scope, download) {
     $scope.downloadAsJson = function(someData) {
         download.fromData(JSON.stringify(someData), "application/json", "download.json");
+    }
+}
+```
+
+Method: fromBase64(dataBase64, mimeType, fileName)
+--------------------------------------------
+
+Downloads a file containing Base64-encoded string `dataBase64` as type `mimeType` named `fileName`.
+
+```javascript
+function MyController($scope, download) {
+    $scope.downloadAsJson = function(someData) {
+        download.dataBase64(JSON.stringify(btoa(someData)), "application/json", "download.json");
     }
 }
 ```

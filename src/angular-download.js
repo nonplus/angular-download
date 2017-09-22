@@ -16,6 +16,9 @@ angular.module("download", [])
 			fromData: function(data, mimeType, name) {
 				this.fromDataURL("data:" + mimeType + ";base64," + btoa(data), name);
 			},
+			fromBase64: function(dataBase64, mimeType, name) {
+				this.fromDataURL("data:" + mimeType + ";base64," + dataBase64, name);
+			},
 			fromDataURL: function(dataUrl, name) {
 				if (downloadLink) {
 					downloadLink.attr("href", dataUrl);

@@ -21,11 +21,18 @@
 					$scope.fileData = "This module makes it easy to download content generated on the client"
 						+ "without invoking a server request or relying on external plugins.\n\n"
 						+ "It should work in any modern browser that supports the download attribute on link tags.";
+
 					$scope.downloadFile = function() {
 						download.fromData($scope.fileData, "text/plain", $scope.fileName);
 					};
 
+					$scope.downloadFileBase64 = function() {
+						download.fromBase64(btoa($scope.fileData), "text/plain", $scope.fileName);
+					};
+
+
 					$scope.imageName = "My image.png";
+
 					$scope.downloadImageFromDataUrl = function() {
 						var img = angular.element(document).find("img");
 						var dataUrl = getImageDataUrl(img[0]);
@@ -86,6 +93,12 @@
 		<td><button ng-click="downloadFile()">Download</button></td>
 		<td>
 			<pre>download.fromData(data, mimeType, fileName);</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><button ng-click="downloadFileBase64()">Download</button></td>
+		<td>
+			<pre>download.fromBase64(btoa(data), mimeType, fileName);</pre>
 		</td>
 	</tr>
 
