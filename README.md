@@ -90,7 +90,7 @@ function getImageDataURL(img) {
 }
 ```
 
-Method: fromDataBlob(dataBlob, fileName)
+Method: fromBlob(dataBlob, fileName)
 ----------------------------------------
 
 Downloads a `Blob` with contents defined by the `dataBlob` named `fileName`.  This is useful for downloading binary
@@ -100,7 +100,7 @@ data, such as client-generated images.
 function MyController($scope, download) {
     $scope.downloadImage = function(img) {
         getImageDataBlob(function(blob) {
-            download.fromDataBlob(blob, "download.png");
+            download.fromBlob(blob, "download.png");
         });
     }
 }
