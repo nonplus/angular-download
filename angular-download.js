@@ -3,7 +3,7 @@
  *
  * @link https://github.com/nonplus/angular-download
  *
- * @license angular-download v0.0.4
+ * @license angular-download v0.0.5
  * (c) Copyright Stepan Riha <github@nonplus.net>
  * License MIT
  */
@@ -26,7 +26,7 @@ angular.module("download", [])
 
 		return {
 			fromData: function(data, mimeType, name) {
-				this.fromDataURL("data:" + mimeType + ";base64," + btoa(data), name);
+				this.fromDataURL("data:" + mimeType + ";base64," + btoa(encode_utf8(data)), name);
 			},
 			fromBase64: function(dataBase64, mimeType, name) {
 				this.fromDataURL("data:" + mimeType + ";base64," + dataBase64, name);
@@ -98,5 +98,9 @@ function b64toBlob(b64Data, contentType, sliceSize) {
 	return blob;
 }
 
+// From http://ecmanaut.blogspot.com/2006/07/encoding-decoding-utf8-in-javascript.html
+function encode_utf8(s) {
+    return unescape(encodeURIComponent(s));
+}
 
 })(window.angular);
